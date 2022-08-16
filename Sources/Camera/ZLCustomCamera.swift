@@ -153,7 +153,7 @@ open class ZLCustomCamera: UIViewController, CAAnimationDelegate {
         AVCaptureDevice.requestAccess(for: .video) { (videoGranted) in
             guard videoGranted else {
                 ZLMainAsync(after: 1) {
-                    self.showAlertAndDismissAfterDoneAction(message: String(format: localLanguageTextValue(.noCameraAuthority), getAppName()), type: .camera)
+                    self.showAlertAndDismissAfterDoneAction(message: String(format: localLanguageTextValue(.noCameraAuthority), getAppName()), type: .camera, hasGoToSettingsAction: true)
                 }
                 return
             }
@@ -541,7 +541,7 @@ open class ZLCustomCamera: UIViewController, CAAnimationDelegate {
         showAlertController(alert)
     }
     
-    func showAlertAndDismissAfterDoneAction(message: String, type: ZLNoAuthorityType?) {
+    func showAlertAndDismissAfterDoneAction(message: String, type: ZLNoAuthorityType?, hasGoToSettingsAction: Bool = false) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: localLanguageTextValue(.done), style: .default) { (_) in
             self.dismiss(animated: true) {
@@ -549,6 +549,21 @@ open class ZLCustomCamera: UIViewController, CAAnimationDelegate {
                     ZLPhotoConfiguration.default().noAuthorityCallback?(t)
                 }
             }
+        }
+        
+        let gotoSettingsAction = UIAlertAction(title: localLanguageTextValue(.gotoSettings), style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true) {
+                guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+
+        if hasGoToSettingsAction {
+            alert.addAction(gotoSettingsAction)
         }
         alert.addAction(action)
         showAlertController(alert)

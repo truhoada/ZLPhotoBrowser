@@ -376,6 +376,15 @@ public class ZLPhotoPreviewSheet: UIView {
         let action = UIAlertAction(title: localLanguageTextValue(.ok), style: .default) { (_) in
             ZLPhotoConfiguration.default().noAuthorityCallback?(.library)
         }
+        let gotoSettingsAction = UIAlertAction(title: localLanguageTextValue(.gotoSettings), style: .cancel) { _ in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alert.addAction(gotoSettingsAction)
         alert.addAction(action)
         sender?.showAlertController(alert)
     }
