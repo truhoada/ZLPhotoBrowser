@@ -129,9 +129,17 @@ func getFadeAnimation(fromValue: CGFloat, toValue: CGFloat, duration: TimeInterv
     return animation
 }
 
-func showAlertView(_ message: String, _ sender: UIViewController?) {
+func showAlertView(_ message: String, _ sender: UIViewController?, hasOpenSettingsAction: Bool = false) {
     let action = ZLCustomAlertAction(title: localLanguageTextValue(.ok), style: .default, handler: nil)
-    showAlertController(title: nil, message: message, style: .alert, actions: [action], sender: sender)
+    let gotoSettingsAction = ZLCustomAlertAction(title: localLanguageTextValue(.gotoSettings), style: .tint) { _ in
+        guard let url = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    showAlertController(title: nil, message: message, style: .alert, actions: hasOpenSettingsAction ? [gotoSettingsAction, action] : [action], sender: sender)
 }
 
 func showAlertController(title: String?, message: String?, style: ZLCustomAlertStyle, actions: [ZLCustomAlertAction], sender: UIViewController?) {

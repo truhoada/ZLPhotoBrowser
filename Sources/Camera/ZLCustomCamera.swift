@@ -578,18 +578,28 @@ open class ZLCustomCamera: UIViewController, CAAnimationDelegate {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
-        showAlertController(title: nil, message: String(format: localLanguageTextValue(.noMicrophoneAuthority), getAppName()), style: .alert, actions: [continueAction, gotoSettingsAction], sender: self)
+        showAlertController(title: nil, message: String(format: localLanguageTextValue(.noMicrophoneAuthority), getAppName()), style: .alert, actions: [gotoSettingsAction, continueAction], sender: self)
     }
     
     private func showAlertAndDismissAfterDoneAction(message: String, type: ZLNoAuthorityType?) {
-        let action = ZLCustomAlertAction(title: localLanguageTextValue(.done), style: .default) { [weak self] _ in
+        let action = ZLCustomAlertAction(title: localLanguageTextValue(.ok), style: .default) { [weak self] _ in
             self?.dismiss(animated: true) {
                 if let type = type {
                     ZLPhotoConfiguration.default().noAuthorityCallback?(type)
                 }
             }
         }
-        showAlertController(title: nil, message: message, style: .alert, actions: [action], sender: self)
+        let gotoSettingsAction = ZLCustomAlertAction(title: localLanguageTextValue(.gotoSettings), style: .tint) { [weak self] _ in
+            self?.dismiss(animated: true) {
+                guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        showAlertController(title: nil, message: message, style: .alert, actions: [gotoSettingsAction, action], sender: self)
     }
     
     private func showTipsLabel(animate: Bool) {

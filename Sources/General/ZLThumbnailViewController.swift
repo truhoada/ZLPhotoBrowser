@@ -774,7 +774,7 @@ class ZLThumbnailViewController: UIViewController {
                 picker.videoMaximumDuration = TimeInterval(config.maxRecordDuration)
                 showDetailViewController(picker, sender: nil)
             } else {
-                showAlertView(String(format: localLanguageTextValue(.noCameraAuthority), getAppName()), self)
+                showAlertView(String(format: localLanguageTextValue(.noCameraAuthority), getAppName()), self, hasOpenSettingsAction: true)
             }
         }
     }
