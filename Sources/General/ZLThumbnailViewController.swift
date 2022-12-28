@@ -74,7 +74,7 @@ class ZLThumbnailViewController: UIViewController {
     
     private lazy var originalBtn: UIButton = {
         let btn = createBtn(localLanguageTextValue(.originalPhoto), #selector(originalPhotoClick))
-        btn.titleLabel?.lineBreakMode = .byCharWrapping
+        btn.titleLabel?.lineBreakMode = .byTruncatingTail
         btn.titleLabel?.numberOfLines = 2
         btn.contentHorizontalAlignment = .left
         btn.setImage(.zl.getImage("zl_btn_original_circle"), for: .normal)

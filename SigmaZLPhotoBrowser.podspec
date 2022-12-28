@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = 'SigmaZLPhotoBrowser'
-  s.version               = '4.3.5.1'
+  s.version               = '4.3.5.2'
   s.summary               = 'A lightweight and pure Swift implemented library for select photos from album'
 
   s.description           = <<-DESC
