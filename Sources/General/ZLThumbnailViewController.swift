@@ -332,7 +332,7 @@ class ZLThumbnailViewController: UIViewController {
         self.bottomView.addSubview(self.previewBtn)
         
         self.originalBtn = createBtn(localLanguageTextValue(.originalPhoto), #selector(originalPhotoClick))
-        self.originalBtn.titleLabel?.lineBreakMode = .byCharWrapping
+        self.originalBtn.titleLabel?.lineBreakMode = .byTruncatingTail
         self.originalBtn.titleLabel?.numberOfLines = 2
         self.originalBtn.contentHorizontalAlignment = .left
         self.originalBtn.setImage(getImage("zl_btn_original_circle"), for: .normal)
